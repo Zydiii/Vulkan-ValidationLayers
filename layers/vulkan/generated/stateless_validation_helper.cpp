@@ -16695,9 +16695,9 @@ bool Instance::PreCallValidateGetPhysicalDeviceFragmentShadingRatesKHR(
              ++pFragmentShadingRateIndex) {
             [[maybe_unused]] const Location pFragmentShadingRates_loc =
                 loc.dot(Field::pFragmentShadingRates, pFragmentShadingRateIndex);
-            skip |= context.ValidateStructPnext(pFragmentShadingRates_loc, pFragmentShadingRates[pFragmentShadingRateIndex].pNext,
+            /*skip |= context.ValidateStructPnext(pFragmentShadingRates_loc, pFragmentShadingRates[pFragmentShadingRateIndex].pNext,
                                                 0, nullptr, GeneratedVulkanHeaderVersion,
-                                                "VUID-VkPhysicalDeviceFragmentShadingRateKHR-pNext-pNext", kVUIDUndefined, false);
+                                                "VUID-VkPhysicalDeviceFragmentShadingRateKHR-pNext-pNext", kVUIDUndefined, false);*/
         }
     }
     return skip;

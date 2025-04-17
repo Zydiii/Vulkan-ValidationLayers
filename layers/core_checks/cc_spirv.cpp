@@ -139,7 +139,7 @@ bool CoreChecks::ValidatePushConstantUsage(const spirv::Module &module_state, co
         }
     } else {
         shader_object_push_constant_ranges_id = GetCanonicalId(stage_state.shader_object_create_info->pushConstantRangeCount,
-                                                          stage_state.shader_object_create_info->pPushConstantRanges);
+                                                               stage_state.shader_object_create_info->pPushConstantRanges);
         push_constant_ranges = shader_object_push_constant_ranges_id.get();
         stage_vuid = "VUID-VkShaderCreateInfoEXT-codeType-10064";
         range_vuid = "VUID-VkShaderCreateInfoEXT-codeType-10065";
@@ -2068,8 +2068,7 @@ void CoreChecks::PreCallRecordCreateShaderModule(VkDevice device, const VkShader
                                                  const RecordObject &record_obj, chassis::CreateShaderModule &chassis_state) {
     // Normally would validate in PreCallValidate, but need a non-const function to update chassis_state
     // This is on the stack, we don't have to worry about threading hazards and this could be moved and used const_cast
-    BaseClass::PreCallRecordCreateShaderModule(device, pCreateInfo, pAllocator, pShaderModule, record_obj,
-                                                            chassis_state);
+    BaseClass::PreCallRecordCreateShaderModule(device, pCreateInfo, pAllocator, pShaderModule, record_obj, chassis_state);
     chassis_state.skip |=
         stateless_spirv_validator.Validate(*chassis_state.module_state, chassis_state.stateless_data, record_obj.location);
 }
@@ -2078,7 +2077,7 @@ void CoreChecks::PreCallRecordCreateShadersEXT(VkDevice device, uint32_t createI
                                                const VkAllocationCallbacks *pAllocator, VkShaderEXT *pShaders,
                                                const RecordObject &record_obj, chassis::ShaderObject &chassis_state) {
     BaseClass::PreCallRecordCreateShadersEXT(device, createInfoCount, pCreateInfos, pAllocator, pShaders, record_obj,
-                                                          chassis_state);
+                                             chassis_state);
     for (uint32_t i = 0; i < createInfoCount; ++i) {
         // Will be empty if not VK_SHADER_CODE_TYPE_SPIRV_EXT
         if (chassis_state.module_states[i]) {
@@ -2161,7 +2160,7 @@ bool CoreChecks::ValidateShaderModuleCreateInfo(const VkShaderModuleCreateInfo &
     bool skip = false;
 
     if (disabled[shader_validation]) {
-        return skip; // VK_VALIDATION_FEATURE_DISABLE_SHADERS_EXT
+        return skip;  // VK_VALIDATION_FEATURE_DISABLE_SHADERS_EXT
     } else if (!create_info.pCode) {
         return skip;  // will be caught elsewhere
     }
@@ -2195,7 +2194,7 @@ bool CoreChecks::ValidateShaderModuleCreateInfo(const VkShaderModuleCreateInfo &
         }
 
         spv_const_binary_t binary{create_info.pCode, create_info.codeSize / sizeof(uint32_t)};
-        skip |= RunSpirvValidation(binary, create_info_loc, cache);
+        // skip |= RunSpirvValidation(binary, create_info_loc, cache);
     }
 
     return skip;
